@@ -9,7 +9,8 @@ https://github.com/Bootcamp-web/react-hook-forms-I
 1. [ Modificamos `HaveIngredients.tsx`](#schema2)
 1. [ Modificamos `Recipe.tsx`](#schema3)
 1. [ Creamos nuevo componente `FullRecipe.tsx` y modificamos `Recipe.tsx` ](#schema4)
-1. [ Modificamos `App.tsx` para añadir los componentes nuevos. ](#schema5)
+1. [ Modificamos `useIngredients.tsx` y modificamos `HaveIngredients.tsx` ](#schema5)
+
 1. [ Añadimos estilos al item, modificamos `Item.tsx`,](#schema6)
 1. [ Modificamos `InputItem.tsx`](#schema7)
 1. [ Añadimos props a  `InputItem.tsx`y `ShoppingList.tsx`](#schema8)
@@ -100,7 +101,7 @@ import React from 'react';
 import { useIngredient } from '../lib/useIngredients';
 
 export const FullRecipe = ({ recipe }) => {
-    const { ingredients } = useIngredient();
+    const { ingredients, hasIngredient } = useIngredient();
     const completedIngredients =  recipe.filter((ingredient)=>ingredients.map((e)=>e.ingredient)
     .includes(ingredient));
 
@@ -140,3 +141,56 @@ export const Recipe = () => {
 
 }
 ~~~
+<hr>
+
+<a name="schema5"></a>
+
+# 5 Modificamos `useIngredients.tsx` y modificamos `HaveIngredients.tsx`
+- `useIngredients.tsx`
+~~~tsx
+import React, { useContext, useState } from 'react';
+
+export const IngredientsContext = React.createContext({});
+
+export const useIngredient = ()=>{
+    const { ingredients, addItem }= useContext(IngredientsContext)
+
+    const hasIngredient = (ing) => ingredients.filter((e) => e.ingredient === ing).length > 0;
+
+    return { ingredients, addItem,hasIngredient }
+}
+
+
+~~~
+- `HaveIngredients.tsx`
+~~~tsx
+import React from 'react';
+import { useIngredient } from '../lib/useIngredients';
+
+export const HaveIngredient = ({ ing }) => {
+
+  const { ingredients,hasIngredient }  = useIngredient();
+  if(hasIngredient(ing))
+  {
+    return (
+      <p style={{ color: 'green' }}>
+        {' '}
+        I have
+        {' '}
+        {ing}
+      </p>
+    );
+  }
+  return (
+    <p style={{ color: 'red' }}>
+      {' '}
+      I dont have any
+      {' '}
+      {ing}
+    </p>
+  );
+  
+}
+~~~
+
+# 6 

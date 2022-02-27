@@ -3,8 +3,9 @@ import { useIngredient } from '../lib/useIngredients';
 
 export const HaveIngredient = ({ ing }) => {
 
-  const { ingredients }  = useIngredient();
-  if(ingredients.filter((e)=>e.ingredient ===ing ).length > 0)
+  const { hasIngredient }  = useIngredient();
+  
+  if(hasIngredient(ing))
   {
     return (
       <p style={{ color: 'green' }}>
