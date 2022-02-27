@@ -7,6 +7,19 @@ export const useIngredient = ()=>{
 
     const hasIngredient = (ing) => ingredients.filter((e) => e.ingredient === ing).length > 0;
 
-    return { ingredients, addItem,hasIngredient }
+    const getMissingIngredients=(recipe) => {
+        const completedIngredients =  recipe.filter((ingredient)=>ingredients.map((e)=>e.ingredient)
+        .includes(ingredient));
+
+        const setRecipe = new Set(completedIngredients);
+        const missingIngredients = new Set([...recipe].filter((x) => !setRecipe.has(x)));
+        
+        return {
+            missingIngredients,
+            completed: completedIngredients.length ===recipe.lengt
+        }
+    }
+
+    return { ingredients, addItem,hasIngredient,getMissingIngredients }
 }
 

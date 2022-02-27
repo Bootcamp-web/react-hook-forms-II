@@ -1,10 +1,6 @@
 # React-hook-forms-II
 
-# 0 Viene de proyectos anteriores
-
-https://github.com/Bootcamp-web/react-hook-forms-I
-
-
+0. [Viene de proyectos anteriores](#schema0)
 1. [Inicializamos NPM e instalamos paquetes necesarios](#schema1)
 1. [ Modificamos `HaveIngredients.tsx`](#schema2)
 1. [ Modificamos `Recipe.tsx`](#schema3)
@@ -19,6 +15,14 @@ https://github.com/Bootcamp-web/react-hook-forms-I
 1. [ Creando contexto `useIngredients.tsx` ,modificamos `App.tsx` , `Recipe.tsx`y  `HaveIngredient.tsx` ](#schema11)
 1. [ Quitamos la función de `ShoppingList.tsx` y la ponemos en `App.tsx` ](#schema12)
 1. [ Ejecutamos Typescript ](#schema2)
+
+<hr>
+
+<a name="schema0"></a>
+
+# 0 Viene de proyectos anteriores
+
+https://github.com/Bootcamp-web/react-hook-forms-I
 
 <hr>
 
@@ -193,4 +197,55 @@ export const HaveIngredient = ({ ing }) => {
 }
 ~~~
 
-# 6 
+# 6 Modificamos `FullRecipe.tsx` para dejar solo el componente y ponemos la lógica en el contexto.
+- `FullRecipe.tsx` 
+~~~tsx
+import React from 'react';
+import { useIngredient } from '../lib/useIngredients';
+
+export const FullRecipe = ({ recipe }) => {
+    const { getMissingIngredients } = useIngredient();
+    const { missingIngredients, completed } = getMissingIngredients(recipe);
+ 
+    if (completed) {
+      return (<p>✅Receta completa</p>);
+    }
+    return (
+      <p>
+        ❌
+        {' '}
+        <b>Faltan ingredients: </b>
+        {[...missingIngredients].join(', ')}
+      </p>
+    );
+  };
+~~~
+- `useIngredients.tsx` 
+~~~tsx
+import React, { useContext, useState } from 'react';
+
+export const IngredientsContext = React.createContext({});
+
+export const useIngredient = ()=>{
+    const { ingredients, addItem }= useContext(IngredientsContext)
+
+    const hasIngredient = (ing) => ingredients.filter((e) => e.ingredient === ing).length > 0;
+
+    const getMissingIngredients=(recipe) => {
+        const completedIngredients =  recipe.filter((ingredient)=>ingredients.map((e)=>e.ingredient)
+        .includes(ingredient));
+
+        const setRecipe = new Set(completedIngredients);
+        const missingIngredients = new Set([...recipe].filter((x) => !setRecipe.has(x)));
+        
+        return {
+            missingIngredients,
+            completed: completedIngredients.length ===recipe.lengt
+        }
+    }
+
+    return { ingredients, addItem,hasIngredient,getMissingIngredients }
+}
+
+
+~~~
