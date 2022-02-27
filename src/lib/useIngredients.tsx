@@ -13,7 +13,7 @@ export const useIngredient = ()=>{
 
         const setRecipe = new Set(completedIngredients);
         const missingIngredients = new Set([...recipe].filter((x) => !setRecipe.has(x)));
-        
+
         return {
             missingIngredients,
             completed: completedIngredients.length ===recipe.lengt
@@ -23,3 +23,15 @@ export const useIngredient = ()=>{
     return { ingredients, addItem,hasIngredient,getMissingIngredients }
 }
 
+export const ShoppingListManager = ({children}) =>{
+    const [items, setItems] = useState([]);
+    const addItem = (item)=>{
+       setItems([...items,item])
+   }
+   return(
+    <IngredientsContext.Provider value={{ingredients: items,addItem}}>
+        {children}
+    </IngredientsContext.Provider>
+   )
+
+}

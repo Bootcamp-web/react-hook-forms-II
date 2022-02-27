@@ -196,6 +196,9 @@ export const HaveIngredient = ({ ing }) => {
   
 }
 ~~~
+<hr>
+
+<a name="schema6"></a>
 
 # 6 Modificamos `FullRecipe.tsx` para dejar solo el componente y ponemos la lógica en el contexto.
 - `FullRecipe.tsx` 
@@ -246,6 +249,104 @@ export const useIngredient = ()=>{
 
     return { ingredients, addItem,hasIngredient,getMissingIngredients }
 }
+~~~
 
+# 7 Crearmos `ShoppingListManager` en `useIngredients.tsx` 
+- `useIngredients.tsx` 
+~~~tsx
+import React, { useContext, useState } from 'react';
 
+export const IngredientsContext = React.createContext({});
+
+export const useIngredient = ()=>{
+    const { ingredients, addItem }= useContext(IngredientsContext)
+
+    const hasIngredient = (ing) => ingredients.filter((e) => e.ingredient === ing).length > 0;
+
+    const getMissingIngredients=(recipe) => {
+        const completedIngredients =  recipe.filter((ingredient)=>ingredients.map((e)=>e.ingredient)
+        .includes(ingredient));
+
+        const setRecipe = new Set(completedIngredients);
+        const missingIngredients = new Set([...recipe].filter((x) => !setRecipe.has(x)));
+
+        return {
+            missingIngredients,
+            completed: completedIngredients.length ===recipe.lengt
+        }
+    }
+
+    return { ingredients, addItem,hasIngredient,getMissingIngredients }
+}
+
+export const ShoppingListManager = ({children}) =>{
+    const [items, setItems] = useState([]);
+    const addItem = (item)=>{
+       setItems([...items,item])
+   }
+   return(
+    <IngredientsContext.Provider value={{ingredients: items,addItem}}>
+        {children}
+    </IngredientsContext.Provider>
+   )
+
+}
+~~~
+Modificamos `App.tsx`
+~~~tsx
+import React from 'react';
+import { Recipe } from './components/Recipe';
+import { ShoppingList } from './components/ShoppingList'
+import { ShoppingListManager } from './lib/useIngredients';
+
+export  const App =()=> {    
+    return(
+
+        <div>
+            <h2>App Shopping list</h2>
+            <ShoppingListManager>
+                <ShoppingList/>
+                <Recipe/>
+            </ShoppingListManager>            
+        </div>
+    )
+}
+~~~
+
+# 8 Le ponemos estilos a `App.tsx`
+~~~tsx
+import React from 'react';
+import { Recipe } from './components/Recipe';
+import { ShoppingList } from './components/ShoppingList'
+import { ShoppingListManager } from './lib/useIngredients';
+import styled from 'styled-components';
+
+const Flex = styled.div`
+display:flex;
+align-items: flex-start;
+justify-content: center;
+flex-wrap: wrap;
+`;
+
+const Box = styled.div`
+padding: 10px;
+border: 1px solid red;
+`;
+export const App = () => (
+    <div>
+      <ShoppingListManager>
+        <Flex>
+          <div style={{ width: '100%', textAlign: 'center' }}>
+            <h2>App Shopping list</h2>
+          </div>
+          <Box>
+            <ShoppingList />
+          </Box>
+          <Box>
+            <Recipe />
+          </Box>
+        </Flex>
+      </ShoppingListManager>
+    </div>
+  );
 ~~~
