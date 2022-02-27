@@ -6,15 +6,10 @@
 1. [ Modificamos `Recipe.tsx`](#schema3)
 1. [ Creamos nuevo componente `FullRecipe.tsx` y modificamos `Recipe.tsx` ](#schema4)
 1. [ Modificamos `useIngredients.tsx` y modificamos `HaveIngredients.tsx` ](#schema5)
+1. [ Modificamos `FullRecipe.tsx` para dejar solo el componente y ponemos la lógica en el contexto.](#schema6)
+1. [ Crearmos `ShoppingListManager` en `useIngredients.tsx` ](#schema7)
+1. [ Le ponemos estilos a `App.tsx`](#schema8)
 
-1. [ Añadimos estilos al item, modificamos `Item.tsx`,](#schema6)
-1. [ Modificamos `InputItem.tsx`](#schema7)
-1. [ Añadimos props a  `InputItem.tsx`y `ShoppingList.tsx`](#schema8)
-1. [ Modificamos `Item.tsx` ](#schema9)
-1. [ Creamos `HaveIngredient.tsx` y `Recipe.tsx` ](#schema10)
-1. [ Creando contexto `useIngredients.tsx` ,modificamos `App.tsx` , `Recipe.tsx`y  `HaveIngredient.tsx` ](#schema11)
-1. [ Quitamos la función de `ShoppingList.tsx` y la ponemos en `App.tsx` ](#schema12)
-1. [ Ejecutamos Typescript ](#schema2)
 
 <hr>
 
@@ -250,6 +245,9 @@ export const useIngredient = ()=>{
     return { ingredients, addItem,hasIngredient,getMissingIngredients }
 }
 ~~~
+<hr>
+
+<a name="schema7"></a>
 
 # 7 Crearmos `ShoppingListManager` en `useIngredients.tsx` 
 - `useIngredients.tsx` 
@@ -312,6 +310,9 @@ export  const App =()=> {
     )
 }
 ~~~
+<hr>
+
+<a name="schema8"></a>
 
 # 8 Le ponemos estilos a `App.tsx`
 ~~~tsx
